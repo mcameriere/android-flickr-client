@@ -42,4 +42,6 @@ Observable<JsonObject> searchPhotos(@Query("api_key") String apiKey,
 
 ## Add INTERNET permission
 
-    <uses-permission android:name="android.permission.INTERNET" />
+```xml
+<uses-permission android:name="android.permission.INTERNET" />
+```
