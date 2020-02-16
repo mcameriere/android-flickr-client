@@ -49,6 +49,9 @@ Observable<JsonObject> searchPhotos(@Query("api_key") String apiKey,
 ## Edit MainActivity.java
 
 ```java
+
+String apiKey = BuildConfig.FLICKR_API_KEY;
+
 Retrofit retrofit = new Retrofit.Builder()
         .addConverterFactory(GsonConverterFactory.create())
         .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
