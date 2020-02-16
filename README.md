@@ -1,10 +1,10 @@
 # android-flickr-client
 
-Create or edit ~/.gradle/gradle.properties
+## Create or edit ~/.gradle/gradle.properties
 
     FlickrAPIKey=123456789012345678901234567890123456789012
 
-Edit build.gradle
+## Edit build.gradle
 
     def FLICKR_API_KEY = '"' + FlickrAPIKey + '"'
 
@@ -16,7 +16,7 @@ Edit build.gradle
         type.buildConfigField 'String', 'FLICKR_API_KEY', FLICKR_API_KEY
     }
     
-Add dependencies
+## Add dependencies
 
     dependencies {
         ...
