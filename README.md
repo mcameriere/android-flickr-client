@@ -65,3 +65,42 @@ api.searchPhotos(apiKey, "star", 3)
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe();
 ```
+
+## Add new method to FlickrApi
+
+```java
+@GET("/services/rest/?method=flickr.photos.getSizes&format=json&nojsoncallback=1")
+Observable<JsonObject> getSizes(@Query("api_key") String apiKey,
+                                @Query("photo_id") String photoId);
+```
+
+Edit MainActivity.java
+
+```java
+api.searchPhotos(apiKey, "star", 3)
+        .map(response -> response.getAsJsonObject("photos").getAsJsonArray("photo"))
+        .flatMap(Observable::fromIterable)
+        .map(photo -> photo.getAsJsonObject().get("id").getAsString())
+        .flatMap(id -> api.getSizes(apiKey, id))
+        .map(response -> response.getAsJsonObject("sizes").getAsJsonArray("size"))
+        .map(sizes -> {
+            String url = "";
+            for (int i = 0; i < sizes.size(); i++) {
+                JsonElement element = sizes.get(i);
+                String label = element.getAsJsonObject().get("label").getAsString();
+                String source = element.getAsJsonObject().get("source").getAsString();
+                if ("Square".equals(label)) {
+                    url = source;
+                    break;
+                }
+            }
+            return url;
+        })
+        .doOnNext(url -> Log.d(TAG, url))
+        .subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe();
+```
+
+       
+        
