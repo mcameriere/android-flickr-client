@@ -33,7 +33,9 @@
     }
 ## Define FlickrApi
 
-    @GET("/services/rest/?method=flickr.photos.search&format=json&nojsoncallback=1")
-    Observable<JsonObject> searchPhotos(@Query("api_key") String apiKey,
-                                        @Query("tags") String tags,
-                                        @Query("per_page") int limit);
+```java
+@GET("/services/rest/?method=flickr.photos.search&format=json&nojsoncallback=1")
+Observable<JsonObject> searchPhotos(@Query("api_key") String apiKey,
+                                    @Query("tags") String tags,
+                                    @Query("per_page") int limit);
+```
