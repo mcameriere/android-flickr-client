@@ -1,5 +1,9 @@
 # android-flickr-client
 
+Android Flickr Client
+
+Apply to Flickr.com to obtain your API key
+
 ## Create or edit ~/.gradle/gradle.properties
 
     FlickrAPIKey=123456789012345678901234567890123456789012
