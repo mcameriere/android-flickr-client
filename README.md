@@ -2,7 +2,7 @@
 
 Android Flickr Client
 
-Apply to Flickr.com to obtain your API key
+Apply to https://www.flickr.com/services/ to create your API key.
 
 ## Create or edit ~/.gradle/gradle.properties
 
@@ -35,13 +35,24 @@ Apply to Flickr.com to obtain your API key
         implementation 'com.squareup.retrofit2:converter-gson:2.6.4'
 
     }
+
 ## Define FlickrApi
 
 ```java
-@GET("/services/rest/?method=flickr.photos.search&format=json&nojsoncallback=1")
-Observable<JsonObject> searchPhotos(@Query("api_key") String apiKey,
-                                    @Query("tags") String tags,
-                                    @Query("per_page") int limit);
+import com.google.gson.JsonObject;
+
+import io.reactivex.Observable;
+import retrofit2.http.GET;
+import retrofit2.http.Query;
+
+public interface FlickrApi {
+
+    @GET("/services/rest/?method=flickr.photos.search&format=json&nojsoncallback=1")
+    Observable<JsonObject> searchPhotos(@Query("api_key") String apiKey,
+                                        @Query("tags") String tags,
+                                        @Query("per_page") int limit);
+
+}
 ```
 
 ## Add INTERNET permission
