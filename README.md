@@ -39,3 +39,7 @@ Observable<JsonObject> searchPhotos(@Query("api_key") String apiKey,
                                     @Query("tags") String tags,
                                     @Query("per_page") int limit);
 ```
+
+## Add INTERNET permission
+
+    <uses-permission android:name="android.permission.INTERNET" />
