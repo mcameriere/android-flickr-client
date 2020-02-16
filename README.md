@@ -74,7 +74,7 @@ Observable<JsonObject> getSizes(@Query("api_key") String apiKey,
                                 @Query("photo_id") String photoId);
 ```
 
-Edit MainActivity.java
+## Edit MainActivity.java
 
 ```java
 api.searchPhotos(apiKey, "star", 3)
