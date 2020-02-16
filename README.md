@@ -45,3 +45,20 @@ Observable<JsonObject> searchPhotos(@Query("api_key") String apiKey,
 ```xml
 <uses-permission android:name="android.permission.INTERNET" />
 ```
+
+## Edit MainActivity.java
+
+```java
+Retrofit retrofit = new Retrofit.Builder()
+        .addConverterFactory(GsonConverterFactory.create())
+        .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+        .baseUrl("https://api.flickr.com")
+        .build();
+
+FlickrApi api = retrofit.create(FlickrApi.class);
+
+api.searchPhotos(apiKey, "star", 3)
+        .subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe();
+```
