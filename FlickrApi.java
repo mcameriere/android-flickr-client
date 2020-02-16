@@ -12,5 +12,9 @@ public interface FlickrApi {
     Observable<JsonObject> searchPhotos(@Query("api_key") String apiKey,
                                         @Query("tags") String tags,
                                         @Query("per_page") int limit);
+    
+    @GET("/services/rest/?method=flickr.photos.getSizes&format=json&nojsoncallback=1")
+    Observable<JsonObject> getSizes(@Query("api_key") String apiKey,
+                                    @Query("photo_id") String photoId);
 
 }
