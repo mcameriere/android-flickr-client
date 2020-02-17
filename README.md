@@ -1,6 +1,6 @@
 # android-flickr-client
 
-Build a Flickr Client app for Android
+Flickr Client app for Android
 
 Apply to https://www.flickr.com/services/ to obtain your API key.
 
@@ -15,7 +15,13 @@ Add you API key to global gradle.properties file
     def FLICKR_API_KEY = '"' + FlickrAPIKey + '"'
 
     android {
+
         ...
+        
+        compileOptions {
+            sourceCompatibility = 1.8
+            targetCompatibility = 1.8
+        }
     }
     
     android.buildTypes.each { type ->
