@@ -139,6 +139,7 @@ private RecyclerView recyclerView;
 
 ### Add RecyclerView to layout activity_main.xml
 
+```xml
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -157,6 +158,7 @@ private RecyclerView recyclerView;
         app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+```
 
 ### Get reference to RecyclerView in onCreate
 
