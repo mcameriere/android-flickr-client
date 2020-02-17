@@ -1,13 +1,15 @@
 # android-flickr-client
 
-Android Flickr Client
+Build a Flickr Client app for Android
 
-Apply to https://www.flickr.com/services/ to create your API key.
+Apply to https://www.flickr.com/services/ to obtain your API key.
 
 ## Create or edit ~/.gradle/gradle.properties
 
-    FlickrAPIKey=123456789012345678901234567890123456789012
+Add you API key to global gradle.properties file
 
+    FlickrAPIKey=123456789012345678901234567890123456789012
+    
 ## Edit build.gradle
 
     def FLICKR_API_KEY = '"' + FlickrAPIKey + '"'
@@ -20,7 +22,13 @@ Apply to https://www.flickr.com/services/ to create your API key.
         type.buildConfigField 'String', 'FLICKR_API_KEY', FLICKR_API_KEY
     }
     
-## Add dependencies
+## Read API key from code
+
+```java
+String apiKey = BuildConfig.FLICKR_API_KEY;
+```
+
+## Add RxJava and Retrofit dependencies
 
     dependencies {
         ...
@@ -61,7 +69,7 @@ public interface FlickrApi {
 <uses-permission android:name="android.permission.INTERNET" />
 ```
 
-## Edit MainActivity.java
+## Edit MainActivity.java (1/3)
 
 ```java
 
@@ -89,7 +97,7 @@ Observable<JsonObject> getSizes(@Query("api_key") String apiKey,
                                 @Query("photo_id") String photoId);
 ```
 
-## Edit MainActivity.java
+## Edit MainActivity.java (2/3)
 
 ```java
 api.searchPhotos(apiKey, "star", 3)
@@ -117,27 +125,16 @@ api.searchPhotos(apiKey, "star", 3)
         .subscribe();
 ```
 
-## Add RecyclerView dependency
+## Add RecyclerView and Picasso dependencies
 
     implementation 'androidx.recyclerview:recyclerview:1.2.0-alpha01'
-
-## Add Picasso dependency
-
     implementation 'com.squareup.picasso:picasso:2.5.2'
 
 ## Create RecyclerView Adapter
 
 See PhotoAdapter.java
 
-## Update MainActivity.java
-
-### Create field recyclerView
-
-```java
-private RecyclerView recyclerView;
-```
-
-### Add RecyclerView to layout activity_main.xml
+## Add RecyclerView to layout activity_main.xml
 
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
@@ -160,9 +157,12 @@ private RecyclerView recyclerView;
 </androidx.constraintlayout.widget.ConstraintLayout>
 ```
 
-### Get reference to RecyclerView in onCreate
+## Edit MainActivity.java (3/3)
 
 ```java
+final String TAG = MainActivity.class.getSimpleName();
+private RecyclerView recyclerView;
+
 @Override
 protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -199,5 +199,21 @@ private void updateUI(List<String> urls) {
     PhotoAdapter adapter = new PhotoAdapter(this, urls);
     recyclerView.setLayoutManager(new LinearLayoutManager(this));
     recyclerView.setAdapter(adapter);
+}
+
+private Function<JsonArray, String> getJsonArrayStringFunction() {
+    return sizes -> {
+        String url = "";
+        for (int i = 0; i < sizes.size(); i++) {
+            JsonObject size = sizes.get(i).getAsJsonObject();
+            String label = size.get("label").getAsString();
+            String source = size.get("source").getAsString();
+            if ("Large".equals(label)) {
+                url = source;
+                break;
+            }
+        }
+        return url;
+    };
 }
 ```
