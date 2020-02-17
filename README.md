@@ -117,10 +117,85 @@ api.searchPhotos(apiKey, "star", 3)
         .subscribe();
 ```
 
-Add RecyclerView dependency
+## Add RecyclerView dependency
 
     implementation 'androidx.recyclerview:recyclerview:1.2.0-alpha01'
 
-Add Picasso dependency
+## Add Picasso dependency
 
     implementation 'com.squareup.picasso:picasso:2.5.2'
+
+## Create RecyclerView Adapter
+
+See PhotoAdapter.java
+
+## Update MainActivity.java
+
+### Create field recyclerView
+
+```java
+private RecyclerView recyclerView;
+```
+
+### Add RecyclerView to layout activity_main.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+### Get reference to RecyclerView in onCreate
+
+```java
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_main);
+
+    recyclerView = findViewById(R.id.recyclerView);
+
+    String apiKey = BuildConfig.FLICKR_API_KEY;
+
+    Retrofit retrofit = new Retrofit.Builder()
+            .addConverterFactory(GsonConverterFactory.create())
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .baseUrl("https://api.flickr.com")
+            .build();
+
+    FlickrApi api = retrofit.create(FlickrApi.class);
+
+    api.searchPhotos(apiKey, "star", 3)
+            .map(response -> response.getAsJsonObject("photos").getAsJsonArray("photo"))
+            .flatMap(Observable::fromIterable)
+            .map(photo -> photo.getAsJsonObject().get("id").getAsString())
+            .flatMap(id -> api.getSizes(apiKey, id))
+            .map(response -> response.getAsJsonObject("sizes").getAsJsonArray("size"))
+            .map(getJsonArrayStringFunction())
+            .doOnNext(url -> Log.d(TAG, url))
+            .toList()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(this::updateUI);
+
+}
+
+private void updateUI(List<String> urls) {
+    PhotoAdapter adapter = new PhotoAdapter(this, urls);
+    recyclerView.setLayoutManager(new LinearLayoutManager(this));
+    recyclerView.setAdapter(adapter);
+}
+```
