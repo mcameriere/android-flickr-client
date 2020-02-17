@@ -98,7 +98,7 @@ api.searchPhotos(apiKey, "star", 3)
         .subscribe();
 ```
 
-## Add new method to FlickrApi
+## Add the getSizes method to FlickrApi interface
 
 ```java
 @GET("/services/rest/?method=flickr.photos.getSizes&format=json&nojsoncallback=1")
