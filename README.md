@@ -4,9 +4,9 @@ Flickr Client app for Android
 
 Apply to https://www.flickr.com/services/ to obtain your API key.
 
-## Create or edit ~/.gradle/gradle.properties
+## Add API key to global Gradle properties
 
-Add you API key to global gradle.properties file
+Create or edit ~/.gradle/gradle.properties file by adding one line:
 
     FlickrAPIKey=123456789012345678901234567890123456789012
     
@@ -30,6 +30,8 @@ Add you API key to global gradle.properties file
     
 ## Read API key from code
 
+First build your app. You should be able to read API key from code, as follows: 
+
 ```java
 String apiKey = BuildConfig.FLICKR_API_KEY;
 ```
@@ -51,7 +53,7 @@ String apiKey = BuildConfig.FLICKR_API_KEY;
 
     }
 
-## Define FlickrApi
+## Define the FlickrApi interface
 
 ```java
 import com.google.gson.JsonObject;
@@ -70,7 +72,7 @@ public interface FlickrApi {
 }
 ```
 
-## Add INTERNET permission
+## Add INTERNET permission to Android Manifest
 
 ```xml
 <uses-permission android:name="android.permission.INTERNET" />
@@ -171,6 +173,12 @@ See PhotoAdapter.java
 ```
 
 ## Edit MainActivity.java (3/3)
+
+- Create RecyclerView field
+- Get reference to RecyclerView
+- Add toList operator
+- Extract getJsonArrayStringFunction
+- Add updateUI method
 
 ```java
 final String TAG = MainActivity.class.getSimpleName();
