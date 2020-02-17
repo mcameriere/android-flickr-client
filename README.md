@@ -37,6 +37,7 @@ String apiKey = BuildConfig.FLICKR_API_KEY;
 ## Add RxJava and Retrofit dependencies
 
     dependencies {
+    
         ...
 
         // RxJava
@@ -133,8 +134,14 @@ api.searchPhotos(apiKey, "star", 3)
 
 ## Add RecyclerView and Picasso dependencies
 
-    implementation 'androidx.recyclerview:recyclerview:1.2.0-alpha01'
-    implementation 'com.squareup.picasso:picasso:2.5.2'
+    dependencies {
+    
+        ...
+
+        implementation 'androidx.recyclerview:recyclerview:1.2.0-alpha01'
+        implementation 'com.squareup.picasso:picasso:2.5.2'
+
+    }
 
 ## Create RecyclerView Adapter
 
