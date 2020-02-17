@@ -117,5 +117,10 @@ api.searchPhotos(apiKey, "star", 3)
         .subscribe();
 ```
 
-       
-        
+Add RecyclerView dependency
+
+    implementation 'androidx.recyclerview:recyclerview:1.2.0-alpha01'
+
+Add Picasso dependency
+
+    implementation 'com.squareup.picasso:picasso:2.5.2'
